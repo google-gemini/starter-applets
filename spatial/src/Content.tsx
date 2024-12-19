@@ -257,11 +257,11 @@ export function Content() {
         index: i,
       };
     });
-    // sort smallest to largest
+    // Sort smallest to largest
     const sorted = dimensionsAndIndex.sort(
       (a, b) => a.width * a.height - b.width * b.height,
     );
-    // find the smallest box that contains the mouse
+    // Find the smallest box that contains the mouse
     const { clientX, clientY } = e;
     const found = sorted.find(({ top, left, width, height }) => {
       return (
