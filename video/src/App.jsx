@@ -47,6 +47,28 @@ export default function App() {
   const isCustomChartMode = isChartMode && chartMode === 'Custom'
   const hasSubMode = isCustomMode || isChartMode
 
+  const saveState = () => {
+    const state = {
+      vidUrl,
+      timecodeList,
+      selectedMode,
+      activeMode,
+      customPrompt,
+      chartMode,
+      chartPrompt,
+      chartLabel,
+    };
+
+    const content = JSON.stringify(state, null, 2);
+    const blob = new Blob([content], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "video-data.json";
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
   const setTimecodes = ({timecodes}) =>
     setTimecodeList(
       timecodes.map(t => ({...t, text: t.text.replaceAll("\\'", "'")}))
@@ -237,6 +259,12 @@ export default function App() {
                       onClick={() => onModeSelect(selectedMode)}
                     >
                       ▶️ Generate
+                    </button>
+                    <button
+                      className="button saveButton"
+                      onClick={saveState}
+                    >
+                      💾 Save to Local
                     </button>
                   </div>
                 </>
