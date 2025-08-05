@@ -70,6 +70,20 @@ async function init() {
   } else {
     document.documentElement.setAttribute("data-theme", "light");
   }
+
+  const saveLocalButton = document.querySelector("#save-local-button");
+  saveLocalButton.addEventListener("click", () => {
+    const location = document.querySelector("#map iframe").src;
+    const caption = document.querySelector("#caption p")?.textContent || "";
+    const content = `Location: ${location}\nCaption: ${caption}`;
+    const blob = new Blob([content], { type: "text/plain" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "map-data.txt";
+    a.click();
+    URL.revokeObjectURL(url);
+  });
 }
 
 init();

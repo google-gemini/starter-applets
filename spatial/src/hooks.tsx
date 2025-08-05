@@ -19,6 +19,9 @@ import {
   BumpSessionAtom,
   ImageSentAtom,
   PointsAtom,
+  ImageSrcAtom,
+  LinesAtom,
+  DetectTypeAtom,
 } from "./atoms";
 
 export function useResetState() {
@@ -34,5 +37,34 @@ export function useResetState() {
     setBoundingBoxes3D([]);
     setBumpSession((prev) => prev + 1);
     setPoints([]);
+  };
+}
+
+export function useSaveState() {
+  const [imageSrc] = useAtom(ImageSrcAtom);
+  const [boundingBoxes2D] = useAtom(BoundingBoxes2DAtom);
+  const [boundingBoxes3D] = useAtom(BoundingBoxes3DAtom);
+  const [points] = useAtom(PointsAtom);
+  const [lines] = useAtom(LinesAtom);
+  const [detectType] = useAtom(DetectTypeAtom);
+
+  return () => {
+    const state = {
+      imageSrc,
+      boundingBoxes2D,
+      boundingBoxes3D,
+      points,
+      lines,
+      detectType,
+    };
+
+    const content = JSON.stringify(state, null, 2);
+    const blob = new Blob([content], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "spatial-data.json";
+    a.click();
+    URL.revokeObjectURL(url);
   };
 }

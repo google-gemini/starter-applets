@@ -57,6 +57,7 @@ export function embed(location) {
     loading="lazy"
     allowfullscreen
     referrerpolicy="no-referrer-when-downgrade"
+    sandbox="allow-scripts allow-popups allow-forms allow-same-origin allow-popups-to-escape-sandbox"
     src="https://www.google.com/maps/embed/v1/place?key=${API_KEY}
     &q=${location}"
   >

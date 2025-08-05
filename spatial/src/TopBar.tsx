@@ -13,7 +13,7 @@
 // limitations under the License.
 
 import { useAtom } from "jotai";
-import { useResetState } from "./hooks";
+import { useResetState, useSaveState } from "./hooks";
 import {
   DetectTypeAtom,
   HoverEnteredAtom,
@@ -25,6 +25,7 @@ import { modelOptions } from "./consts";
 
 export function TopBar() {
   const resetState = useResetState();
+  const saveState = useSaveState();
   const [revealOnHover, setRevealOnHoverMode] = useAtom(RevealOnHoverModeAtom);
   const [detectType] = useAtom(DetectTypeAtom);
   const [, setHoverEntered] = useAtom(HoverEnteredAtom);
@@ -44,6 +45,17 @@ export function TopBar() {
           }}
         >
           <div>Reset session</div>
+        </button>
+        <button
+          onClick={() => {
+            saveState();
+          }}
+          className="p-0 border-none underline bg-transparent"
+          style={{
+            minHeight: "0",
+          }}
+        >
+          <div>Save to Local</div>
         </button>
       </div>
       <div className="flex gap-3 items-center">
