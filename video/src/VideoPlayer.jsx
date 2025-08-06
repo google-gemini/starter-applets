@@ -16,10 +16,12 @@ import {useCallback, useEffect, useState, useMemo} from 'react'
 import c from 'classnames'
 import {timeToSecs} from './utils'
 
-const formatTime = t =>
-  `${Math.floor(t / 60)}:${Math.floor(t % 60)
-    .toString()
-    .padStart(2, '0')}`
+const formatTime = t => {
+  const minutes = Math.floor(t / 60);
+  const seconds = Math.floor(t % 60).toString().padStart(2, '0');
+  const milliseconds = Math.floor((t - Math.floor(t)) * 1000).toString().padStart(3, '0');
+  return `${minutes}:${seconds}.${milliseconds}`;
+}
 
 export default function VideoPlayer({
   url,

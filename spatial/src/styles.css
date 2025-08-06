@@ -110,8 +110,8 @@ input[type="range"] {
 }
 
 .box-caption {
-  color: var(--bg-color);
-  background: var(--accent-color);
+  color: var(--text-color-primary);
+  background: var(--box-color);
   border-radius: var(--box-radius);
   padding: 14px 28px;
   max-width: 340px;

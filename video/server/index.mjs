@@ -17,10 +17,12 @@ import ViteExpress from 'vite-express'
 import multer from 'multer'
 import {checkProgress, promptVideo, uploadVideo} from './upload.mjs'
 
+import os from 'os';
+
 const app = express()
 app.use(express.json())
 
-const upload = multer({dest: '/tmp/'})
+const upload = multer({dest: os.tmpdir()})
 app.post('/api/upload', upload.single('video'), async (req, res) => {
   try {
     const file = req.file
