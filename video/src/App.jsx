@@ -33,6 +33,7 @@ export default function App() {
   const [isLoading, setIsLoading] = useState(false)
   const [showSidebar, setShowSidebar] = useState(true)
   const [isLoadingVideo, setIsLoadingVideo] = useState(false)
+  // videoError will hold a user-friendly message string or false when no error
   const [videoError, setVideoError] = useState(false)
   const [customPrompt, setCustomPrompt] = useState('')
   const [chartMode, setChartMode] = useState(chartModes[0])
@@ -96,14 +97,27 @@ export default function App() {
 
     const formData = new FormData()
     formData.set('video', e.dataTransfer.files[0])
-    const resp = await (
-      await fetch('/api/upload', {
+    try {
+      const uploadResponse = await fetch('/api/upload', {
         method: 'POST',
         body: formData
       })
-    ).json()
-    setFile(resp.data)
-    checkProgress(resp.data.name)
+
+      if (!uploadResponse.ok) {
+        const errJson = await uploadResponse.json().catch(() => ({}))
+        const msg = errJson?.error || `Upload failed with status ${uploadResponse.status}`
+        setVideoError(msg)
+        setIsLoadingVideo(false)
+        return
+      }
+
+      const resp = await uploadResponse.json()
+      setFile(resp.data)
+      checkProgress(resp.data.name)
+    } catch (err) {
+      setVideoError(err?.message || String(err))
+      setIsLoadingVideo(false)
+    }
   }
 
   const checkProgress = async fileId => {

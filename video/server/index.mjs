@@ -20,14 +20,18 @@ import {checkProgress, promptVideo, uploadVideo} from './upload.mjs'
 const app = express()
 app.use(express.json())
 
-const upload = multer({dest: '/tmp/'})
+// Allow configuring the temporary uploads directory (some hosts restrict /tmp)
+const tmpDir = process.env.VIDEO_UPLOAD_TMP_DIR || '/tmp/'
+const upload = multer({dest: tmpDir})
 app.post('/api/upload', upload.single('video'), async (req, res) => {
   try {
     const file = req.file
     const resp = await uploadVideo(file)
     res.json({data: resp})
   } catch (error) {
-    res.status(500).json({error})
+    // Error can be an Error object; return a structured JSON message to the client
+    console.error('/api/upload error:', error)
+    res.status(500).json({error: error?.message || String(error)})
   }
 })
 
@@ -50,7 +54,8 @@ app.post('/api/prompt', async (req, res) => {
     )
     res.json(videoResponse)
   } catch (error) {
-    res.json({error}, {status: 400})
+    console.error('/api/prompt error:', error)
+    res.status(400).json({error: error?.message || String(error)})
   }
 })
 

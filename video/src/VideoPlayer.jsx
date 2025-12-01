@@ -176,11 +176,11 @@ export default function VideoPlayer({
       ) : (
         <div className="emptyVideo">
           <p>
-            {isLoadingVideo
-              ? 'Processing video...'
-              : videoError
-              ? 'Error processing video.'
-              : 'Drag and drop a video file here to get started.'}
+                {isLoadingVideo
+                  ? 'Processing video...'
+                  : videoError
+                  ? `Error processing video: ${typeof videoError === 'string' ? videoError : 'An unknown error occurred.'}`
+                  : 'Drag and drop a video file here to get started.'}
           </p>
         </div>
       )}
