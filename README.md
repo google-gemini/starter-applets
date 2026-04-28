@@ -9,10 +9,9 @@ included here can run standalone using the
 
 ## Spatial Understanding
 
-[Spatial Understanding](/spatial/)
-([live demo](https://aistudio.google.com/app/starter-apps/spatial)) is a simple
-demonstration of Gemini's 2D and 3D spatial understanding and reasoning
-capabilities. It was built with React.
+[Spatial Understanding](/spatial/) is a simple demonstration of
+Gemini's 2D and 3D spatial understanding and reasoning capabilities.
+It was built with React.
 
 This example should give you an idea of how to get started with spatial analysis
 using Gemini. Check out [Prompt.tsx](/spatial/src/Prompt.tsx) to see how
